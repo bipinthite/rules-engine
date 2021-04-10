@@ -1,0 +1,77 @@
+# Base configuration
+
+# Server configuration
+server: 
+  port: 8080
+  servlet: 
+    context-path: /api/rules
+
+spring: 
+  datasource: 
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa: 
+    properties: 
+      hibernate: 
+        hbm2ddl: 
+          auto: update
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+
+logbook: 
+  include: 
+    - /api/**
+  exclude: 
+    - /actuator/**
+  write: 
+    level: INFO
+  max-body-size: 20
+  format: 
+    style: http
+  obfuscate: 
+    headers: 
+      - token
+    parameters: 
+      - email
+      - password
+
+---
+
+# Spring configuration
+spring: 
+
+  profiles: default
+
+  datasource: 
+    url: jdbc:mysql://127.0.0.1:3306/rules?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: mysql
+    password: mysql
+
+# Logging
+logging: 
+  config: classpath:log4j2/log4j2.yml
+
+---
+
+# Environment: production
+
+# Spring configuration
+spring: 
+
+  profiles: production
+
+  jpa: 
+    show-sql: false
+
+# Logging
+logging: 
+  config: classpath:log4j2/log4j2-production.yml
+
+  # Datasource
+  datasource: 
+    url: ${DB.URL}
+    username: ${DB.USERNAME}
+    password: ${DB.PASSWORD}
+
+logbook: 
+  format: 
+    style: json
