@@ -1,11 +1,14 @@
 package com.example.rules.exception;
 
+import java.io.Serial;
+
 /**
  * RuleEvaluationException.
  */
 @SuppressWarnings("unused")
 public class RuleEvaluationException extends RuntimeException {
 
+  @Serial
   private static final long serialVersionUID = -5231011305560978130L;
 
   public RuleEvaluationException() {

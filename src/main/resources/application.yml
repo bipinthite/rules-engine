@@ -7,15 +7,17 @@ server:
     context-path: /api/rules
 
 spring: 
-  datasource: 
-    driverClassName: com.mysql.cj.jdbc.Driver
-  jpa: 
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
     properties: 
-      hibernate: 
-        hbm2ddl: 
-          auto: update
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+
+  flyway:
+    baselineOnMigrate: true
 
 logbook: 
   include: 
@@ -39,12 +41,14 @@ logbook:
 # Spring configuration
 spring: 
 
-  profiles: default
+  config:
+    activate:
+      on-profile: default
 
   datasource: 
-    url: jdbc:mysql://127.0.0.1:3306/rules?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
-    username: mysql
-    password: mysql
+    url: jdbc:postgresql://localhost:5432/rules
+    username: rules
+    password: secretpassword
 
 # Logging
 logging: 
@@ -55,9 +59,11 @@ logging:
 # Environment: production
 
 # Spring configuration
-spring: 
+spring:
 
-  profiles: production
+  config:
+    activate:
+      on-profile: production
 
   jpa: 
     show-sql: false

@@ -1,28 +1,31 @@
 package com.example.rules.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * Rule.
  */
-@SuppressWarnings("unused")
-@ToString
+@Data
 @Entity(name = "rules")
 public class Rule implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = -8107471483688479908L;
 
   /**
    * Resource Type.
@@ -59,7 +62,7 @@ public class Rule implements Serializable {
   private String resourceContents;
 
   @Lob
-  @Column(columnDefinition = "BLOB")
+  @Column
   private byte[] resourceData;
 
   @Column(nullable = false)
@@ -72,93 +75,4 @@ public class Rule implements Serializable {
   @Column(nullable = false, insertable = false, updatable = false)
   @Temporal(TemporalType.TIMESTAMP)
   private Date createdAt;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public KnowledgeBase getKnowledgeBase() {
-    return knowledgeBase;
-  }
-
-  public void setKnowledgeBase(KnowledgeBase knowledgeBase) {
-    this.knowledgeBase = knowledgeBase;
-  }
-
-  public String getPackageName() {
-    return packageName;
-  }
-
-  public void setPackageName(String packageName) {
-    this.packageName = packageName;
-  }
-
-  public String getResourceName() {
-    return resourceName;
-  }
-
-  public void setResourceName(String resourceName) {
-    this.resourceName = resourceName;
-  }
-
-  public ResourceType getResourceType() {
-    return resourceType;
-  }
-
-  public void setResourceType(ResourceType resourceType) {
-    this.resourceType = resourceType;
-  }
-
-  public String getResourceContents() {
-    return resourceContents;
-  }
-
-  public void setResourceContents(String resourceContents) {
-    this.resourceContents = resourceContents;
-  }
-
-  public byte[] getResourceData() {
-    return resourceData;
-  }
-
-  public void setResourceData(byte[] resourceData) {
-    this.resourceData = resourceData;
-  }
-
-  public String getVersion() {
-    return version;
-  }
-
-  public void setVersion(String version) {
-    this.version = version;
-  }
-
-  public Date getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(Date updatedAt) {
-    this.updatedAt = updatedAt;
-  }
-
-  public Date getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
 }

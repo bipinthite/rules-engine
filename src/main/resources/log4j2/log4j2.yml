@@ -1,4 +1,4 @@
-Configutation:
+Configuration:
   name: Default
   properties: 
     property: 
@@ -23,7 +23,7 @@ Configutation:
       Logger: 
         - name: com.example.rules
           additivity: false
-          level: trace
+          level: debug
           AppenderRef: 
             - ref: Console_Appender
 

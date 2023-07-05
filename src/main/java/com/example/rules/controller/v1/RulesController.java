@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * RulesController.
+ *
+ * @author Bipin Thite
  */
 @SuppressWarnings("unused")
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({@Autowired}))
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/v1")
 public class RulesController {
@@ -30,23 +32,21 @@ public class RulesController {
 
   private final RulesService service;
 
-  /**
-   * Fire rules.
-   */
+  /** Fire rules. */
   @ResponseBody
   @PostMapping(
-          path = "/fire",
-          consumes = MediaType.APPLICATION_JSON_VALUE,
-          produces = MediaType.APPLICATION_JSON_VALUE)
+      path = "/fire",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ApiResponse> fireRules(
-          @RequestBody final Map<String, Object> facts,
-          @RequestHeader(name = "kb", required = true) final String kb) {
+      @RequestBody final Map<String, Object> facts,
+      @RequestHeader(name = "kb", required = true) final String kb) {
     log.trace("ENTRY {} {}", CLASS_NAME, "fireRules");
 
     final Map<String, Object> results = service.fireRules(facts, kb);
 
     final ResponseEntity<ApiResponse> response =
-            new ResponseEntity<>(new ApiResponse(results), HttpStatus.OK);
+        new ResponseEntity<>(new ApiResponse(results), HttpStatus.OK);
 
     log.trace("EXIT {} {}", CLASS_NAME, "fireRules");
     return response;

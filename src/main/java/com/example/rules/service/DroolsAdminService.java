@@ -6,10 +6,14 @@ import com.example.rules.model.KnowledgeBase;
 import com.example.rules.model.Rule;
 import com.example.rules.repository.KnowledgeBaseRepository;
 import com.example.rules.repository.RuleRepository;
+import jakarta.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import javax.annotation.PostConstruct;
+import java.util.Objects;
+import java.util.Optional;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
@@ -25,20 +29,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Drools Admin service.s
+ * Drools Admin service.
+ *
+ * @author Bipin Thite
  */
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({@Autowired}))
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class DroolsAdminService {
-
-  private static final String CLASS_NAME = DroolsAdminService.class.getSimpleName();
 
   private static final String RULES_PATH = "src/main/resources/rules";
 
   private final KnowledgeBaseRepository knowledgeBaseRepository;
   private final RuleRepository ruleRepository;
 
+  @Getter
+  @Setter
   private KieContainer kieContainer;
 
   /**
@@ -52,14 +58,6 @@ public class DroolsAdminService {
     }
   }
 
-  public KieContainer getKieContainer() {
-    return kieContainer;
-  }
-
-  public void setKieContainer(final KieContainer newKieContainer) {
-    this.kieContainer = newKieContainer;
-  }
-
   /**
    * Reload rules.
    */
@@ -70,12 +68,12 @@ public class DroolsAdminService {
       log.info("KieContainer is loaded from DB");
     } catch (Exception e) {
       throw new KieContainerInitializationException(
-              "Error occurred while loading the KIE container", e);
+          "Error occurred while loading the KIE container", e);
     }
   }
 
   private KieContainer loadContainerFromDb() {
-    log.trace("ENTRY {} {}", CLASS_NAME, "loadContainerFromDb");
+
     final KieServices kieServices = KieServices.Factory.get();
 
     // Create new KieModule
@@ -93,64 +91,61 @@ public class DroolsAdminService {
     final KieBuilder kieBuilder = kieServices.newKieBuilder(kfs).buildAll();
 
     final List<Message> buildErrors = kieBuilder.getResults().getMessages(Message.Level.ERROR);
+    // empty list indicates that rules are compiled successfully
     if (!buildErrors.isEmpty()) {
       throw new RulesBuildException("Error while building the rules. " + buildErrors);
     }
 
     // Create new KieContainer
-    final KieContainer newKieContainer =
-            kieServices.newKieContainer(kieServices.getRepository().getDefaultReleaseId());
-
-    log.trace("RETURN {} {}", CLASS_NAME, "loadContainerFromDB");
-    return newKieContainer;
+    return kieServices.newKieContainer(kieServices.getRepository().getDefaultReleaseId());
   }
 
   private void buildKnowledgeBases(final KieModuleModel kieModuleModel) {
     final List<KnowledgeBase> knowledgeBases = knowledgeBaseRepository.findAll();
-    for (final KnowledgeBase knowledgeBase : knowledgeBases) {
-      final KieBaseModel kieBase = kieModuleModel.newKieBaseModel(knowledgeBase.getName());
-      kieBase.addPackage(knowledgeBase.getPackages());
-      kieBase.newKieSessionModel(knowledgeBase.getName());
-    }
+    knowledgeBases.forEach(
+        knowledgeBase -> {
+          final KieBaseModel kieBase = kieModuleModel.newKieBaseModel(knowledgeBase.getName());
+          kieBase.addPackage(knowledgeBase.getPackages());
+          kieBase.newKieSessionModel(knowledgeBase.getName());
+        });
   }
 
-  private Resource buildResourceFromRuleData(final Rule rule) {
+  private Optional<Resource> buildResourceFromRuleData(final Rule rule) {
     Resource resource;
 
     final Rule.ResourceType resourceType = rule.getResourceType();
 
-    switch (resourceType) {
-      // Decision table
-      case DTABLE:
-        resource =
-                ResourceFactory.newByteArrayResource(rule.getResourceData())
-                               .setResourceType(ResourceType.DTABLE);
-        break;
+    // Decision table
+    if (Objects.requireNonNull(resourceType) == Rule.ResourceType.DTABLE) {
+      resource =
+          ResourceFactory.newByteArrayResource(rule.getResourceData())
+              .setResourceType(ResourceType.DTABLE);
       // DRL
-      case DRL:
-      default:
-        resource =
-                ResourceFactory.newByteArrayResource(
-                        rule.getResourceContents().getBytes(StandardCharsets.UTF_8))
-                               .setResourceType(ResourceType.DRL);
-        break;
+    } else if (Objects.requireNonNull(resourceType) == Rule.ResourceType.DRL) {
+      resource =
+          ResourceFactory.newByteArrayResource(
+                  rule.getResourceContents().getBytes(StandardCharsets.UTF_8))
+              .setResourceType(ResourceType.DRL);
+    } else {
+      log.warn("Unsupported or unknown resource type {} in rule {}", resourceType, rule);
+      return Optional.empty();
     }
 
-    return resource;
+    return Optional.of(resource);
   }
 
   private String buildRulePath(final Rule rule) {
-    return RULES_PATH
-           + '/'
-           + rule.getPackageName().replace('.', '/')
-           + '/'
-           + rule.getResourceName();
+    return new StringBuilder(RULES_PATH)
+        .append('/')
+        .append(rule.getPackageName().replace('.', '/'))
+        .append('/')
+        .append(rule.getResourceName())
+        .toString();
   }
 
   private void buildRules(final KieFileSystem kfs) {
     final List<Rule> rules = ruleRepository.findAll();
-    for (final Rule rule : rules) {
-      kfs.write(buildRulePath(rule), buildResourceFromRuleData(rule));
-    }
+    rules.forEach(
+        rule -> buildResourceFromRuleData(rule).ifPresent(r -> kfs.write(buildRulePath(rule), r)));
   }
 }

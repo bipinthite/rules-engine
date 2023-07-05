@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * DroolsAdminController.
+ *
+ * @author Bipin Thite
  */
 @SuppressWarnings("unused")
-@RequiredArgsConstructor(onConstructor = @__({@Autowired}))
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/v1/admin")
 public class DroolsAdminController {
@@ -23,5 +25,4 @@ public class DroolsAdminController {
     // Secure this end-point
     service.reload();
   }
-
 }

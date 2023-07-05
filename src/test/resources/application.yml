@@ -1,18 +1,10 @@
 # Spring configuration
 spring:
 
-  profiles: test
+  config:
+    activate:
+      on-profile: test
 
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: password
-    driverClassName: org.h2.Driver
-    database-platform: org.hibernate.dialect.H2Dialect
-
-  jpa:
-    properties:
-      hibernate:
-        hbm2ddl:
-          auto: create
-        dialect: org.hibernate.dialect.H2Dialect
+  docker:
+    compose:
+      lifecycle-management: none

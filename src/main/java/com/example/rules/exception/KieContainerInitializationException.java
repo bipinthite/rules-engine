@@ -1,11 +1,14 @@
 package com.example.rules.exception;
 
+import java.io.Serial;
+
 /**
  * KieContainerInitializationException.
  */
 @SuppressWarnings("unused")
 public class KieContainerInitializationException extends RuntimeException {
 
+  @Serial
   private static final long serialVersionUID = -546464606821621996L;
 
   public KieContainerInitializationException() {

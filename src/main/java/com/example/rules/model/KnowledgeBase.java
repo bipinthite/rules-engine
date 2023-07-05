@@ -1,23 +1,26 @@
 package com.example.rules.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * KnowledgeBase.
  */
-@SuppressWarnings("unused")
-@ToString
+@Data
 @Entity(name = "knowledgeBases")
 public class KnowledgeBase implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = -7590121515103561978L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,45 +39,4 @@ public class KnowledgeBase implements Serializable {
   @Column(unique = true, insertable = false, updatable = false)
   @Temporal(TemporalType.TIMESTAMP)
   private Date createdAt;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getPackages() {
-    return packages;
-  }
-
-  public void setPackages(String packages) {
-    this.packages = packages;
-  }
-
-  public Date getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(Date updatedAt) {
-    this.updatedAt = updatedAt;
-  }
-
-  public Date getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
 }

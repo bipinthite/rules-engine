@@ -14,21 +14,24 @@ import org.springframework.stereotype.Service;
 
 /**
  * Rules Service.
+ *
+ * @author Bipin Thite
  */
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__({@Autowired}))
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class RulesService {
-
-  private static final String CLASS_NAME = RulesService.class.getSimpleName();
 
   private final DroolsAdminService droolsAdminService;
 
   /**
-   * Fire rules.
+   * Fire the rules.
+   *
+   * @param facts one or more facts
+   * @param kb name of the knowledge base
+   * @return results
    */
   public Map<String, Object> fireRules(final Map<String, Object> facts, final String kb) {
-    log.trace("ENTRY {} {}", CLASS_NAME, "fireRules");
     log.debug("facts={}, kb={}", facts, kb);
 
     // Get KieSession
@@ -47,11 +50,10 @@ public class RulesService {
 
       return results;
     } catch (Exception e) {
-      throw new RuleEvaluationException("Error occured while evaluating the rules", e);
+      throw new RuleEvaluationException("Error occurred while evaluating the rules", e);
     } finally {
       // Destroy the KieSession
       kieSession.destroy();
-      log.trace("EXIT {} {}", CLASS_NAME, "fireRules");
     }
   }
 
@@ -65,11 +67,11 @@ public class RulesService {
   private KieSession getKieSession(final String kb) {
     // Get Kie Session from KieContainer
     final KieSession kieSession =
-            droolsAdminService.getKieContainer().getKieBase(kb).newKieSession();
+        droolsAdminService.getKieContainer().getKieBase(kb).newKieSession();
 
     if (kieSession == null) {
       throw new KnowledgeBaseNotFoundException(
-              "Could not create Kie Session for knowledge base " + kb);
+          "Could not create Kie Session for knowledge base " + kb);
     }
 
     return kieSession;
@@ -80,10 +82,10 @@ public class RulesService {
 
     final Map<String, Object> results = new HashMap<>(factHandles.size());
 
-    factHandles.iterator()
-               .forEachRemaining(
-                       factHandle -> results.put(String.valueOf(factHandle.getId()),
-                                                 factHandle.getObject()));
+    factHandles
+        .iterator()
+        .forEachRemaining(
+            factHandle -> results.put(String.valueOf(factHandle.getId()), factHandle.getObject()));
 
     return results;
   }
