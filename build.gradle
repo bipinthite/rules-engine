@@ -20,4 +20,5 @@ ext {
   checkstyleVersion = '8.41.1'
   pmdVersion = '6.21.0'
   spotbugsVersion = '5.0.14'
+  retrofitVersion = '2.9.0'
 }

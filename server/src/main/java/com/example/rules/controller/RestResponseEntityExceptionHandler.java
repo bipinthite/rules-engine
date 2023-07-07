@@ -4,7 +4,8 @@ import com.example.drools.exceptions.KieContainerInitializationException;
 import com.example.drools.exceptions.KnowledgeBaseNotFoundException;
 import com.example.drools.exceptions.RuleEvaluationException;
 import com.example.drools.exceptions.RulesBuildException;
-import com.example.rules.dto.ApiResponse;
+import com.example.rules.models.ApiError;
+import com.example.rules.models.ApiResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   @SuppressWarnings("unused")
   @ExceptionHandler({KnowledgeBaseNotFoundException.class})
-  protected ResponseEntity<ApiResponse> handleKbNotFound(
+  protected ResponseEntity<ApiResponse<Object>> handleKbNotFound(
       final RuntimeException ex, final WebRequest request) {
     return buildResponseEntity(buildApiResponse(ex), HttpStatus.BAD_REQUEST);
   }
@@ -29,26 +30,25 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     RulesBuildException.class,
     KieContainerInitializationException.class
   })
-  protected ResponseEntity<ApiResponse> handleRuleEvaluationError(
+  protected ResponseEntity<ApiResponse<Object>> handleRuleEvaluationError(
       final RuntimeException ex, final WebRequest request) {
     return buildResponseEntity(buildApiResponse(ex), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @ExceptionHandler({Exception.class})
-  protected ResponseEntity<ApiResponse> handleRuntimeException(
+  protected ResponseEntity<ApiResponse<Object>> handleRuntimeException(
       final RuntimeException ex, final WebRequest request) {
     return buildResponseEntity(buildApiResponse(ex), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   // Utility methods
-
-  private ApiResponse buildApiResponse(final RuntimeException ex) {
-    final ApiResponse.Error error = new ApiResponse.Error(ex.getLocalizedMessage());
-    return new ApiResponse(null, error, null, null);
+  private ApiResponse<Object> buildApiResponse(final RuntimeException ex) {
+    final ApiError error = new ApiError(ex.getLocalizedMessage());
+    return new ApiResponse<>(null, error);
   }
 
-  private ResponseEntity<ApiResponse> buildResponseEntity(
-      final ApiResponse responseBody, final HttpStatus status) {
+  private ResponseEntity<ApiResponse<Object>> buildResponseEntity(
+      final ApiResponse<Object> responseBody, final HttpStatus status) {
     return new ResponseEntity<>(responseBody, new HttpHeaders(), status);
   }
 }

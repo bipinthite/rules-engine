@@ -1,17 +1,17 @@
 # Base configuration
 
 # Server configuration
-server: 
+server:
   port: 8080
-  servlet: 
+  servlet:
     context-path: /api/rules
 
-spring: 
+spring:
   jpa:
     generate-ddl: false
     hibernate:
       ddl-auto: none
-    properties: 
+    properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
@@ -19,33 +19,33 @@ spring:
   flyway:
     baselineOnMigrate: true
 
-logbook: 
-  include: 
+logbook:
+  include:
     - /api/**
-  exclude: 
+  exclude:
     - /actuator/**
-  write: 
+  write:
     level: INFO
   max-body-size: 20
-  format: 
+  format:
     style: http
-  obfuscate: 
-    headers: 
+  obfuscate:
+    headers:
       - token
-    parameters: 
+    parameters:
       - email
       - password
 
 ---
 
 # Spring configuration
-spring: 
+spring:
 
   config:
     activate:
       on-profile: default
 
-  datasource: 
+  datasource:
     url: jdbc:postgresql://localhost:5432/rules
     username: rules
     password: secretpassword
@@ -65,15 +65,15 @@ spring:
     activate:
       on-profile: production
 
-  jpa: 
+  jpa:
     show-sql: false
 
   # Datasource
-  datasource: 
+  datasource:
     url: ${DB.URL}
     username: ${DB.USERNAME}
     password: ${DB.PASSWORD}
 
-logbook: 
-  format: 
+logbook:
+  format:
     style: json
