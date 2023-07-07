@@ -1,0 +1,13 @@
+plugins {
+  id 'rules.spring'
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation "org.flywaydb:flyway-core:${flywayVersion}"
+
+  runtimeOnly 'org.postgresql:postgresql'
+
+  testImplementation 'org.testcontainers:junit-jupiter'
+  testImplementation 'org.testcontainers:postgresql'
+}

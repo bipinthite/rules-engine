@@ -1,0 +1,12 @@
+plugins {
+  id 'rules.java'
+  id 'rules.spring-deps'
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter'
+  implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+  annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

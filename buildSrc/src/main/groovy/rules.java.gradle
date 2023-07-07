@@ -1,0 +1,35 @@
+plugins {
+  id 'java'
+  id 'rules.checkstyle'
+  id 'rules.pmd'
+  id 'rules.spotbugs'
+  id 'jacoco'
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+repositories {
+  mavenCentral()
+}
+
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+  checkstyleConfig
+}
+
+dependencies {
+  compileOnly 'org.projectlombok:lombok:1.18.28'
+  annotationProcessor 'org.projectlombok:lombok:1.18.28'
+  testCompileOnly 'org.projectlombok:lombok:1.18.28'
+  testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+  testImplementation 'org.mockito:mockito-junit-jupiter:5.3.1'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+  useJUnitPlatform()
+}

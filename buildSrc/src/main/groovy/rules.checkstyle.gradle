@@ -1,0 +1,20 @@
+plugins {
+  id 'checkstyle'
+}
+
+ext {
+  set('checkstyleVersion', '8.41.1')
+}
+
+configurations {
+  checkstyleConfig
+}
+
+dependencies {
+  checkstyleConfig("com.puppycrawl.tools:checkstyle:${checkstyleVersion}") { transitive = false }
+}
+
+checkstyle {
+  toolVersion = "${checkstyleVersion}"
+  config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
+}

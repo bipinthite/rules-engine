@@ -1,0 +1,13 @@
+plugins {
+  id 'pmd'
+}
+
+pmd {
+  consoleOutput = true
+  rulesMinimumPriority = 5
+  ruleSets = [
+      "category/java/errorprone.xml",
+      "category/java/bestpractices.xml",
+      "category/java/performance.xml"
+  ]
+}

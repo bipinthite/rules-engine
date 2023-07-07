@@ -1,105 +1,23 @@
 plugins {
-  id 'org.springframework.boot' version '3.1.1'
+  id 'com.github.spotbugs' version '5.0.14'
   id 'io.spring.dependency-management' version '1.1.0'
-  id 'java'
-  id 'pmd'
-  id 'checkstyle'
-}
-
-group = 'com.example'
-version = '2.0.0'
-
-java {
-  sourceCompatibility = '17'
-}
-
-ext {
-  set('droolsVersion', '8.40.0.Final')
-  set('flywayVersion', '9.19.4')
-  set('logbookVersion', '3.1.0')
-  set('testcontainersVersion', '1.18.0')
-  set('checkstyleVersion', '8.41.1')
-  set('pmdVersion', '6.21.0')
-}
-
-configurations {
-  compileOnly {
-    extendsFrom annotationProcessor
-  }
-  configureEach {
-    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-  }
-  checkstyleConfig
+  id 'org.springframework.boot' version '3.1.1'
 }
 
 repositories {
   mavenCentral()
 }
 
-dependencies {
-  // Implementation dependencies
-  implementation 'org.springframework.boot:spring-boot-starter'
-  implementation('org.springframework.boot:spring-boot-starter-web')  {
-    exclude module: 'spring-boot-starter-tomcat'
-  }
-  implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-  implementation 'org.springframework.boot:spring-boot-starter-undertow'
-  implementation 'org.springframework.boot:spring-boot-starter-actuator'
-  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-  implementation "org.drools:drools-core:${droolsVersion}"
-  implementation "org.kie:kie-api:${droolsVersion}"
-  implementation "org.kie:kie-ci:${droolsVersion}"
-  implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
-  implementation "org.flywaydb:flyway-core:${flywayVersion}"
+group = 'com.example'
+version = '2.0.0'
 
-  compileOnly 'org.projectlombok:lombok'
-  annotationProcessor 'org.projectlombok:lombok'
-
-  developmentOnly 'org.springframework.boot:spring-boot-devtools'
-  developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-
-  // Runtime dependencies
-  runtimeOnly 'org.postgresql:postgresql'
-  runtimeOnly "org.drools:drools-compiler:${droolsVersion}"
-  runtimeOnly "org.drools:drools-decisiontables:${droolsVersion}"
-  runtimeOnly "org.drools:drools-xml-support:${droolsVersion}"
-  runtimeOnly ("org.zalando:logbook-spring-boot-starter:${logbookVersion}") {
-    exclude group: 'org.zalando', module: 'logbook-httpclient'
-    exclude group: 'org.springframework.security', module: 'spring-security-web'
-  }
-
-  // Test dependencies
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  testImplementation 'org.testcontainers:junit-jupiter'
-  testImplementation 'org.testcontainers:postgresql'
-  testImplementation 'io.rest-assured:rest-assured'
-
-  checkstyleConfig("com.puppycrawl.tools:checkstyle:${checkstyleVersion}") { transitive = false }
-}
-
-test {
-  useJUnitPlatform()
-}
-
-bootJar {
-  archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
-}
-
-checkstyle {
-  toolVersion "${checkstyleVersion}"
-  config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
-}
-
-checkstyleMain {
-  source ='src/main/java'
-}
-checkstyleTest {
-  source ='src/test/java'
-}
-
-pmd {
-  consoleOutput = true
-  toolVersion = "${pmdVersion}"
-  rulesMinimumPriority = 5
-  ruleSets = ["category/java/errorprone.xml", "category/java/bestpractices.xml", "category/java/performance.xml"]
+ext {
+  springBootVersion = '3.1.1'
+  droolsVersion = '8.40.0.Final'
+  flywayVersion = '9.19.4'
+  logbookVersion = '3.1.0'
+  testcontainersVersion = '1.18.0'
+  checkstyleVersion = '8.41.1'
+  pmdVersion = '6.21.0'
+  spotbugsVersion = '5.0.14'
 }

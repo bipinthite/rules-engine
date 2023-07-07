@@ -1,0 +1,12 @@
+plugins {
+  id 'com.github.spotbugs'
+}
+
+spotbugs {
+  ignoreFailures = false
+  showStackTraces = true
+  showProgress = true
+  effort = 'default'
+  reportLevel = 'default'
+  excludeFilter = file("$parent.projectDir/buildSrc/src/main/resources/spotbugs-exclude.xml")
+}

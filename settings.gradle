@@ -1,1 +1,3 @@
 rootProject.name = 'rules-engine'
+
+include 'persistence', 'drools', 'server'

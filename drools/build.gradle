@@ -1,0 +1,15 @@
+plugins {
+  id 'rules.spring'
+}
+
+dependencies {
+  implementation project(':persistence')
+
+  implementation "org.drools:drools-core:${droolsVersion}"
+  implementation "org.kie:kie-api:${droolsVersion}"
+  implementation "org.kie:kie-ci:${droolsVersion}"
+
+  runtimeOnly "org.drools:drools-compiler:${droolsVersion}"
+  runtimeOnly "org.drools:drools-decisiontables:${droolsVersion}"
+  runtimeOnly "org.drools:drools-xml-support:${droolsVersion}"
+}

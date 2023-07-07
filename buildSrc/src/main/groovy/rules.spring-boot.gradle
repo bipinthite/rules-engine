@@ -1,0 +1,29 @@
+plugins {
+  id 'rules.java'
+  id 'rules.spring-deps'
+  id 'org.springframework.boot'
+}
+
+dependencies {
+  implementation('org.springframework.boot:spring-boot-starter-web')  {
+    exclude module: 'spring-boot-starter-tomcat'
+  }
+  implementation 'org.springframework.boot:spring-boot-starter-undertow'
+  implementation 'org.springframework.boot:spring-boot-starter-json'
+  implementation 'org.springframework.boot:spring-boot-starter-validation'
+  implementation 'org.springframework.boot:spring-boot-starter-logging'
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+
+  runtimeOnly ("org.zalando:logbook-spring-boot-starter:${logbookVersion}") {
+    exclude group: 'org.zalando', module: 'logbook-httpclient'
+    exclude group: 'org.springframework.security', module: 'spring-security-web'
+  }
+
+  testImplementation 'io.rest-assured:rest-assured'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'org.testcontainers:junit-jupiter'
+  testImplementation 'org.testcontainers:postgresql'
+}
