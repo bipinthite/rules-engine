@@ -2,10 +2,6 @@ plugins {
   id 'rules.spring'
 }
 
-ext {
-  retrofitSpringBootStarterVersion = '3.0.2'
-}
-
 dependencies {
-  implementation "com.github.lianjiatech:retrofit-spring-boot-starter:${retrofitSpringBootStarterVersion}"
+  implementation(libs.retrofit.spring.boot.starter)
 }

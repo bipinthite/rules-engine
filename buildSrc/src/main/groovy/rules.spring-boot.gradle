@@ -14,11 +14,6 @@ dependencies {
   developmentOnly 'org.springframework.boot:spring-boot-devtools'
   developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
-  runtimeOnly ("org.zalando:logbook-spring-boot-starter:${logbookVersion}") {
-    exclude group: 'org.zalando', module: 'logbook-httpclient'
-    exclude group: 'org.springframework.security', module: 'spring-security-web'
-  }
-
   testImplementation 'io.rest-assured:rest-assured'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.testcontainers:junit-jupiter'

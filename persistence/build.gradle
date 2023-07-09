@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-  implementation "org.flywaydb:flyway-core:${flywayVersion}"
+  implementation(libs.flyway.core)
 
   runtimeOnly 'org.postgresql:postgresql'
 

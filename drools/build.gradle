@@ -5,11 +5,11 @@ plugins {
 dependencies {
   implementation project(':persistence')
 
-  implementation "org.drools:drools-core:${droolsVersion}"
-  implementation "org.kie:kie-api:${droolsVersion}"
-  implementation "org.kie:kie-ci:${droolsVersion}"
+  implementation(libs.drools.core)
+  implementation(libs.kie.api)
+  implementation(libs.kie.ci)
 
-  runtimeOnly "org.drools:drools-compiler:${droolsVersion}"
-  runtimeOnly "org.drools:drools-decisiontables:${droolsVersion}"
-  runtimeOnly "org.drools:drools-xml-support:${droolsVersion}"
+  runtimeOnly(libs.drools.compiler)
+  runtimeOnly(libs.drools.decisiontables)
+  runtimeOnly(libs.drools.xml.support)
 }

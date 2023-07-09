@@ -1,7 +1,7 @@
 plugins {
-  id 'com.github.spotbugs' version '5.0.14'
-  id 'io.spring.dependency-management' version '1.1.0'
-  id 'org.springframework.boot' version '3.1.1'
+  alias libs.plugins.spring.boot apply false
+  alias libs.plugins.spring.dependency.management apply false
+  alias libs.plugins.spotbugs apply false
 }
 
 repositories {
@@ -13,12 +13,4 @@ version = '2.0.0'
 
 ext {
   springBootVersion = '3.1.1'
-  droolsVersion = '8.40.0.Final'
-  flywayVersion = '9.19.4'
-  logbookVersion = '3.1.0'
-  testcontainersVersion = '1.18.0'
-  checkstyleVersion = '8.41.1'
-  pmdVersion = '6.21.0'
-  spotbugsVersion = '5.0.14'
-  retrofitVersion = '2.9.0'
 }

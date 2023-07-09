@@ -1,0 +1,34 @@
+[versions]
+springBoot = "3.1.1"
+checkstyle = "8.41.1"
+flyway = "9.19.4"
+drools = "8.40.0.Final"
+logbook = "3.1.0"
+testcontainers = "1.18.0"
+pmdPlugin = "6.21.0"
+spotbugsPlugin = "5.0.14"
+retrofit = "2.9.0"
+retrofitSpringBootStarter = "3.0.2"
+lombok = "1.18.28"
+junitJupiter = "5.9.3"
+mockitoJunit = "5.3.1"
+
+[libraries]
+spring-boot-configuration-processor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "springBoot" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+drools-core = { module = "org.drools:drools-core", version.ref = "drools" }
+kie-api = { module = "org.kie:kie-api", version.ref = "drools" }
+kie-ci = { module = "org.kie:kie-ci", version.ref = "drools" }
+drools-compiler = { module = "org.drools:drools-compiler", version.ref = "drools" }
+drools-decisiontables = { module = "org.drools:drools-decisiontables", version.ref = "drools" }
+drools-xml-support = { module = "org.drools:drools-xml-support", version.ref = "drools" }
+logbook-spring-boot-starter = { module = "org.zalando:logbook-spring-boot-starter", version.ref = "logbook" }
+retrofit-spring-boot-starter = { module = "com.github.lianjiatech:retrofit-spring-boot-starter", version.ref = "retrofitSpringBootStarter" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junitJupiter" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockitoJunit" }
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version = "3.1.1" }
+spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.0" }
+spotbugs = { id = "com.github.spotbugs", version = "5.0.14" }

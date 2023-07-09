@@ -5,4 +5,8 @@ plugins {
 dependencies {
   implementation project(':api')
   implementation project(':drools')
+  runtimeOnly(libs.logbook.spring.boot.starter) {
+    exclude group: 'org.zalando', module: 'logbook-httpclient'
+    exclude group: 'org.springframework.security', module: 'spring-security-web'
+  }
 }
